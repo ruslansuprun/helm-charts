@@ -1,0 +1,45 @@
+{{- $root := . -}}
+{{- range $key, $value := .Values.jobs }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "app.fullname" $root }}-{{ $key }}
+  namespace: {{ include "app.namespace" $root }}
+  annotations:
+    "helm.sh/hook": {{ $value.helmHooks }}
+    "helm.sh/hook-weight": {{ $value.hookWeight | quote }}
+spec:
+  template:
+    metadata:
+      name: {{ include "app.fullname" $root }}-{{ $key }}
+    spec:
+      containers:
+      {{- with $value.containers }}
+        - name: {{ include "app.fullname" $root }}-{{ $key }}
+          image: {{ .image }}
+          imagePullPolicy: {{ .pullPolicy }}
+          env:
+            {{- range $key, $value := .env }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+          envFrom:
+          {{- range $k, $v := $.Values.secrets }}
+          {{- range $job_secret := $value.containers.secrets }}
+          {{- if eq $k $job_secret }}
+            - secretRef:
+                name: {{ include "app.fullname" $root }}-{{ $k }}
+          {{- end }}
+          {{- end }}
+          {{- end }}
+          {{- if .command }}
+          command: {{ .command }}
+          {{- end }}
+          {{- if .args }}
+          args: {{ .args }}
+          {{- end }}
+      {{- end }}
+      restartPolicy: {{ $value.restartPolicy }}
+  backoffLimit: {{ $value.backoffLimit }}
+---
+{{- end }}

@@ -1,0 +1,258 @@
+# -----------------------------
+# General
+# -----------------------------
+
+nameOverride: ""
+fullnameOverride: ""
+namespaceOverride: ""
+
+# -----------------------------
+# Service Account
+# -----------------------------
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: false
+  # Labels to add to the service account
+  labels: {}
+  # Annotations to add to the service account
+  annotations: {}
+    # eks.amazonaws.com/role-arn: roleArn
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+# -----------------------------
+# Deployment
+# -----------------------------
+
+# Labels to add to the deployment
+labels: {}
+# Annotations to add to the deployment
+annotations: {}
+
+replicaCount: 1
+
+# Labels to add to the deployment pods
+podLabels: {}
+# Annotations to add to the deployment pods
+podAnnotations: {}
+
+# Secrets with docker image repositories credentials
+imagePullSecrets: []
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+image:
+  repository: ""
+  pullPolicy: Always
+  tag: ""
+
+# Common environment variables
+# For this values won't be added Release.Name prefix. If you do want to specify environment variables, uncomment the following
+# lines, adjust them as necessary, and remove the curly braces after 'env:'.
+env: {}
+  # ENV_VAR_NAME_1: ENV_VAR_VALUE_1
+
+# If you do want to specify envFrom, uncomment the following
+# lines, adjust them as necessary, and remove the curly braces after 'envFrom:'.
+envFrom: []
+  # - configMapRef:
+  #     name: configmap_name
+  # - secretRef:
+  #     name: secret_name
+
+# Secrets from SecretsManager or Parameter Store.
+# For this values will be added Release.Name prefix. If you do want to specify environment variables from external secrets, uncomment the following
+# lines, adjust them as necessary, and remove the square braces after 'secrets:'.
+secrets: {}
+  # config:
+  #   type: parameterstore
+  #   awsParamPath: parameter_name
+  # config2:
+  #   type: secretsmanager
+  #   awsParamPath: parameter_name
+#
+# Where:
+# config,config2 -- names of secrets
+#   type -- secret store type, acceptable values are: (parameterstore, secretsmanager)
+#   awsParamPath -- aws secret name
+
+# We usually recommend not to specify default resources and to leave this as a conscious
+# choice for the user. This also increases chances charts run on environments with little
+# resources, such as Minikube. If you do want to specify resources, uncomment the following
+# lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+resources: {}
+  # limits:
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+volumeMounts: []
+
+# Liveness and Readiness probes
+# If you do want to specify probes, uncomment the following lines,
+# adjust them as necessary, and remove the curly braces after 'probes:'.
+probes: {}
+  # livenessProbe:
+  #   httpGet:
+  #     scheme: HTTP
+  #     path: /
+  #   initialDelaySeconds: 5
+  #   periodSeconds: 3
+  #   successThreshold: 1
+  #   failureThreshold: 3
+  #   timeoutSeconds: 5
+  # readinessProbe:
+  #   httpGet:
+  #     scheme: HTTP
+  #     path: /
+  #   periodSeconds: 3
+  #   successThreshold: 1
+  #   failureThreshold: 3
+  #   timeoutSeconds: 5
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+volumes: []
+
+# -----------------------------
+# Service
+# -----------------------------
+
+service:
+  enabled: false
+  type: ClusterIP
+  # Labels to add to the service
+  labels: {}
+  # Annotations to add to the service
+  annotations: {}
+  ## `port` will also be added to the ingress
+  port: 80
+  ## `targetPort` will also be added to the container
+  targetPort: 80
+
+# -----------------------------
+# Ingress
+# -----------------------------
+
+ingress:
+  enabled: false
+  className: ""
+  # Labels to add to the ingress
+  labels: {}
+  # Annotations to add to the ingress
+  annotations: {}
+    # kubernetes.io/ingress.class: alb
+    # alb.ingress.kubernetes.io/ssl-redirect: "443"
+    # alb.ingress.kubernetes.io/backend-protocol: "HTTP"
+    # alb.ingress.kubernetes.io/certificate-arn: "test"
+    # alb.ingress.kubernetes.io/healthcheck-path: "/"
+    # alb.ingress.kubernetes.io/healthcheck-port: "target_port_of_service"
+    # alb.ingress.kubernetes.io/healthcheck-protocol: "HTTP"
+    # alb.ingress.kubernetes.io/ip-address-type: ipv4
+    # alb.ingress.kubernetes.io/success-codes: "200,301"
+    # alb.ingress.kubernetes.io/target-type: 'ip'
+    # alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
+    # alb.ingress.kubernetes.io/scheme: internet-facing
+    # alb.ingress.kubernetes.io/security-groups: "sg-12343123"
+    # alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS-1-2-Ext-2018-06
+    # alb.ingress.kubernetes.io/subnets: "subnet-1,subnet-2"
+    # alb.ingress.kubernetes.io/group.name: "test"
+  hosts: []
+    # - host: chart-example.local
+    #   paths:
+    #     - path: /
+    #       pathType: Exact
+  tls: []
+    ## Note: Keep in mind that TLS will not work on the default rule because
+    ## the certificates would have to be issued for all the possible sub-domains.
+    ## Therefore, hosts in the tls section need to explicitly match the host in the rules section.
+    ## https://kubernetes.io/docs/concepts/services-networking/ingress/#tls
+    # - hosts:
+    #     - chart-example.local
+    #   secretName: secret-name
+
+# ------------------------------------------------------
+# HPA
+# ------------------------------------------------------
+
+autoscaling:
+  enabled: false
+# Example configuration:
+  # minReplicas: 1
+  # maxReplicas: 5
+  # scaledObject:
+  #   spec:
+  #     pollingInterval: 30
+  #     cooldownPeriod: 150
+  # triggers:
+  #   # https://keda.sh/docs/2.10/scalers/
+  #   - name: sqs
+  #     type: aws-sqs-queue
+  #     authenticationRef:
+  #       name: "sqs-authentication"
+  #       kind: ClusterTriggerAuthentication
+  #     metadata:
+  #       queueURL: https://sqs.aws_region.amazonaws.com/account_id/QueueName
+  #       queueLength: "5"
+  #       awsRegion: "eu-west-2"
+  #       identityOwner: pod
+  #   - type: cpu
+  #     metricType: Utilization
+  #     metadata:
+  #       value: "60"
+
+# -----------------------------
+# Jobs
+# -----------------------------
+
+## Add jobs if necessary to execute before or after main deployment
+
+# Example configuration:
+# jobs:
+#   job_name:
+#     helmHooks: pre-install, pre-upgrade
+#     hookWeight: "1"
+#     backoffLimit: 2
+#     restartPolicy: Never
+#     containers:
+#       image: ""
+#       pullPolicy: Always
+#       command: '["./migrate.sh"]'
+#       env:
+#         ENV_VAR_NAME_1: ENV_VAR_VALUE_1
+#       secrets:
+#         - config
+#         - config2
+
+# Where:
+# job_name -- name of job
+#   helmHooks -- hooks that define when job will be executed(https://helm.sh/docs/topics/charts_hooks/)
+#   hookWeight -- hook weight, defines order of execution when helm hooks are the same((https://helm.sh/docs/topics/charts_hooks/))
+#   command -- comand to execute in job
+#   secrets -- list of secrets to mount
+
+extraManifests: []
+# extraManifests:
+#  - apiVersion: cloud.google.com/v1beta1
+#    kind: BackendConfig
+#    metadata:
+#      name: "{{ .Release.Name }}-testing"
+#    spec:
+#      securityPolicy:
+#        name: "my-gcp-cloud-armor-policy"

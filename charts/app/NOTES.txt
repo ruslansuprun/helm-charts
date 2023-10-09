@@ -1,0 +1,18 @@
+1. To get the application:
+  - visit public URL:
+  {{- with (index .Values.ingress.hosts 0) }}
+  echo "Visit http{{ if $.Values.ingress.tls }}s{{ end }}://{{ .host }}{{ .path }} to use your application"
+  {{- end }}
+  ---------------------------------------------------
+  - forward service port to your localhost port by running these commands:
+  export SERVICE_NAME=$(kubectl get service --namespace {{ .Release.Namespace }} -l "app={{ .Release.Name }}" -o jsonpath="{.items[0].metadata.name}")
+  export SERVICE_PORT=$(kubectl get service --namespace {{ .Release.Namespace }} $SERVICE_NAME -o jsonpath="{.spec.ports[0].port}")
+  kubectl port-forward service/$SERVICE_NAME 8080:$SERVICE_PORT --namespace {{ .Release.Namespace }} 
+2. To get application pods run these commands:
+- show list of pods
+
+  kubectl get pods --namespace {{ .Release.Namespace }} -l "app={{ .Release.Name }}"
+
+- check logs of pod
+
+  kubectl logs <pod_name_from_previous_command> --namespace {{ .Release.Namespace }} 
