@@ -33,6 +33,12 @@ annotations: {}
 
 replicaCount: 1
 
+# Command to run docker image
+# command: ["/bin/echo"]
+
+# Args for command
+# args: ["Hello World"]
+
 # Labels to add to the deployment pods
 podLabels: {}
 # Annotations to add to the deployment pods
@@ -233,7 +239,7 @@ autoscaling:
 #     containers:
 #       image: ""
 #       pullPolicy: Always
-#       command: '["./migrate.sh"]'
+#       command: ["./migrate.sh"]
 #       env:
 #         ENV_VAR_NAME_1: ENV_VAR_VALUE_1
 #       secrets:
