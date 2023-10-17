@@ -153,10 +153,23 @@ service:
   targetPort: 80
 
 # -----------------------------
+# AWS ALB Target Group binding
+# -----------------------------
+
+# Use it in cases if you want to use existing pre-configured loadbalancer with target groups
+
+targetGroupBinding:
+  # To have targetGroupBinding resource created service should be enabled, and ingress should be disabled
+  enabled: false
+  # ARN of target group
+  targetGroupARN: ""
+
+# -----------------------------
 # Ingress
 # -----------------------------
 
 ingress:
+  # To have ingress resource created service should be enabled, and targetGroupBinding should be disabled
   enabled: false
   className: ""
   # Labels to add to the ingress
