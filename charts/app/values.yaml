@@ -142,6 +142,19 @@ probes: {}
   #   failureThreshold: 3
   #   timeoutSeconds: 5
 
+# PodDisruptionBudget
+# Allow to set minAvailable or maxUnavailable percentage of strict count of pods.
+# Helps to maintain reliable apps during releases or scaling
+# You can specify only one of maxUnavailable and minAvailable in a single PodDisruptionBudget.
+podDisruptionBudget: {}
+  # Labels to add to the podDisruptionBudget
+  # labels: {}
+  # Annotations to add to the podDisruptionBudget
+  # annotations: {}
+  # minAvailable: 3 or "25%"
+  # or
+  # maxUnavailable: 3 or "25%"
+
 nodeSelector: {}
 
 tolerations: []
