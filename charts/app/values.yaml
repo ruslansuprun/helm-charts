@@ -104,7 +104,21 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
+# Period that allow pod to shutdown gracefully
+terminationGracePeriodSeconds: 30
+
 volumeMounts: []
+
+# Lifecycle hooks
+# If you do want to specify probes, uncomment the following lines,
+# adjust them as necessary, and remove the curly braces after 'lifecycle:'.
+lifecycle: {}
+  # preStop:
+  #   exec:
+  #     command:
+  #       - /bin/bash
+  #       - -c
+  #       - sleep 20
 
 # Liveness and Readiness probes
 # If you do want to specify probes, uncomment the following lines,
