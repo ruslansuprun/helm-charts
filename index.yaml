@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   app:
   - apiVersion: v2
+    appVersion: 0.4.2
+    created: "2024-02-07T18:23:03.046902681Z"
+    description: A Helm chart for Kubernetes
+    digest: 4b69096be8d6e94cc87b5011cec9dddd74f986829af29d472511451d7afd5727
+    name: app
+    type: application
+    urls:
+    - https://github.com/ruslansuprun/helm-charts/releases/download/app-0.4.2/app-0.4.2.tgz
+    version: 0.4.2
+  - apiVersion: v2
     appVersion: 0.4.1
     created: "2024-02-07T10:58:21.996391559Z"
     description: A Helm chart for Kubernetes
@@ -51,4 +61,4 @@ entries:
     urls:
     - https://github.com/ruslansuprun/helm-charts/releases/download/app-0.3.0/app-0.3.0.tgz
     version: 0.3.0
-generated: "2024-02-07T10:58:21.996416325Z"
+generated: "2024-02-07T18:23:03.046932508Z"
