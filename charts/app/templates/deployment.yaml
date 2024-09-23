@@ -74,10 +74,15 @@ spec:
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.volumeMounts }}
           volumeMounts:
+            {{- range  $key, $value := .Values.configMaps }}
+            - name: {{ include "app.fullname" $root }}-{{ $key }}
+              mountPath: {{ $value.mountPath }}
+              readOnly: {{ $value.readOnly }}
+            {{- end }}
+            {{- with .Values.volumeMounts }}
             {{- toYaml . | nindent 12 }}
-          {{- end }}
+            {{- end }}
           {{- with .Values.probes.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}
@@ -104,6 +109,15 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:
+        {{- range  $key, $value := .Values.configMaps }}
+        - name: {{ $key }}
+          configMap:
+            name: {{ include "app.fullname" $root }}-{{ $key }}
+            {{- with $value.items }}
+            items:
+              {{- toYaml . | nindent 12 }}
+            {{- end }}
+        {{- end }}
         {{- with .Values.volumes }}
         {{- toYaml . | nindent 8 }}
         {{- end }}

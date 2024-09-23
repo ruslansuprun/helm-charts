@@ -93,6 +93,23 @@ secrets: {}
 #   type -- secret store type, acceptable values are: (parameterstore, secretsmanager)
 #   awsParamPath -- aws secret name
 
+# Config maps to mount files to defined path
+configMaps: {}
+  # config:
+  #   #  Labels to add to the confingMap
+  #   labels: {}
+  #   # Annotations to add to the confingMap
+  #   annotations: {}
+  #   mountPath: /tmp/config
+  #   readOnly: true
+  #   #  If items not provided, all confimap keys will be mounted as files to defined path
+  #   # items:
+  #   #   - key: "<configMap key>"
+  #   #     path: "<file name>"
+  #   data:
+  #     config.conf: |
+  #       foo=bar
+
 # We usually recommend not to specify default resources and to leave this as a conscious
 # choice for the user. This also increases chances charts run on environments with little
 # resources, such as Minikube. If you do want to specify resources, uncomment the following
