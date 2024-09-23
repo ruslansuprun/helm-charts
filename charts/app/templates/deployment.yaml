@@ -76,7 +76,7 @@ spec:
           {{- end }}
           volumeMounts:
             {{- range  $key, $value := .Values.configMaps }}
-            - name: {{ include "app.fullname" $root }}-{{ $key }}
+            - name: {{ $key }}
               mountPath: {{ $value.mountPath }}
               readOnly: {{ $value.readOnly }}
             {{- end }}
